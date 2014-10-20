@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * root/QUESTION_NAME/DATE/Main.class -> コンパイル後ファイル
  */
 
-class Submit extends HttpServlet {
+public class Submit extends HttpServlet {
 	public static String root = "/Users/admin/junit/";
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
