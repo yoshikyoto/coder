@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+  version="2.4">
+  
+  <!-- Submit Page -->
+  <servlet>
+  	<servlet-name>Submit</servlet-name>
+  	<servlet-class>YLabCoder.Submit</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Submit</servlet-name>
+  	<url-pattern>/submit</url-pattern>
+  </servlet-mapping>
+  
+</web-app>
