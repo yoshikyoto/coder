@@ -41,17 +41,14 @@ public class Submit extends HttpServlet {
 	    printHeader(out, name);
 	    out.println("<body>");
 	    
-	    // コードを保存する
+	    // ディレクトリの準備
         String date = getDateString();
-        
-        // FizzBuzzディレクトリ作成
-        String f = root + name + date;
-        File file = new File(f);
-        file.mkdir();
-        
-        String filename = "Main.java";
-        String filepath = root + "/" + filename;
-		PrintWriter pw = getPW(filepath);
+	    File qfile = new File(root + name);
+	    File file = new File(root + name + "/" + date);
+	    file.mkdir();
+	    
+	    // コードの保存
+		PrintWriter pw = getPW(file.getAbsolutePath() + "/Main.java");
 		pw.print(code);
 		pw.close();
 		
@@ -85,9 +82,6 @@ public class Submit extends HttpServlet {
 	    // 実行結果
 	    out.println("<h4>Output</h4>");
 	    out.println("<pre class=\"prettyprint\">" + actual + "</pre>");
-	    
-		out.println("<h4>Debug:</h4>");
-        out.println("<p>path: " + filepath + "</p>");
 
 	    out.println("</body>");
 	    out.println("</html>");
