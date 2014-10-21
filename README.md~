@@ -1,0 +1,23 @@
+# 入力プログラム実行＆テスト
+
+## 問題配置方法
+
+root にディレクトリを作ると、その名前の問題が追加されます。  
+問題のディレクトリを question_dir と呼ぶことにします。
+
+
+### 問題に入力が無い場合
+
+question_dir に output.txt というファイルを設置します。  
+output がこれと一致すれば Accepted となります。
+
+
+### 問題に入力がある場合
+
+question_drt に
+
+* input0.txt, input1.txt, input2.txt, ...
+* output0.txt, output1.txt, output2.txt, ...
+
+を設置します。
+
