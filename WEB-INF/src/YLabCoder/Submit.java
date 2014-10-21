@@ -74,20 +74,17 @@ public class Submit extends HttpServlet {
 			p.waitFor();
 			
 			// 入出力ファイルの取得
-			ArrayList<String> inputs = getAll("input", qfile);
-			ArrayList<String> outputs = getAll("output", qfile);
+			File infile = new File(qfile + "/input0.txt");
+			// ArrayList<String> inputs = getAll("input", qfile);
+			// ArrayList<String> outputs = getAll("output", qfile);
 			
-			if(inputs.size() == 0){
+			if(infile.exists()){
+				// input が複数ある場合
+				strs = executeCode(file, qfile);
+			}else{
 				// input が無い場合
 				String expected = getStringFromFile(ofile);
 				strs = executeCode(file, expected);
-			}else{
-				// input が複数ある場合
-				for(int i = 0; i < inputs.size(); i++){
-					String input = inputs.get(i);
-					String output = outputs.get(i);
-					strs = executeCode(file, input, output);
-				}
 			}
 
 			if(strs[0].equals("AC")){
@@ -112,6 +109,60 @@ public class Submit extends HttpServlet {
 	    out.println("</body>");
 	    out.println("</html>");
 	    out.close();
+	}
+	
+	public static String[] executeCode(File file, File qfile) throws IOException, InterruptedException{
+		int i = 0;
+		String strs[] = new String[4];
+		strs[0] = "AC";
+		
+		while(true){
+			System.out.println(i);
+			File infile = new File(qfile.getAbsolutePath() + "/input" + i + ".txt");
+			File outfile = new File(qfile.getAbsolutePath() + "/output" + i + ".txt");
+			if(!file.exists()) break;
+			String input = getStringFromFile(infile);
+			String output = getStringFromFile(outfile);
+			
+			// コードの実行
+			Runtime rt = Runtime.getRuntime();
+			Process p = rt.exec("java Main", null, file);//("java Main", null, file);
+
+			// 入力を入れる
+			OutputStream os = p.getOutputStream();
+			OutputStreamWriter osw = new OutputStreamWriter(os);
+			BufferedWriter bw = new BufferedWriter(osw);
+			PrintWriter pw = new PrintWriter(bw);
+			pw.print("z 1");
+			os.flush();
+			os.close();
+
+			// 出力を受け取る
+			InputStream is = p.getInputStream();
+			InputStreamReader isr = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(isr);			
+	
+			// 正解かどうか
+			String line, actual = "";
+			while((line = br.readLine()) != null){
+				System.out.println("while");
+				actual += line + "\n";
+			}
+			System.out.print("input: [" + input + "]");
+			System.out.print("output: " + output);
+			System.out.print("actual: " + actual);
+			
+			if(actual.equals(output)){
+			}else{
+				strs[0] = "WA";
+				strs[1] = input;
+				strs[2] = output;
+				strs[3] = actual;
+				break;
+			}
+			i++;
+		}
+		return strs;
 	}
 	
 	public static String[] executeCode(File file, String input, String output) throws IOException{
